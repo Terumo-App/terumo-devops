@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  frontend:
+    image: terumoapp/terumo-web-ui-quey-test
+    ports:
+      - "5010:80"
+    depends_on:
+      - api1
+      - api2
+
+  api1:
+    image: terumoapp/terumo-image-retrieval-core-service
+    ports:
+      - "5001:5001"
+    depends_on:
+      - api2
+    networks:
+      - appnet
+
+  api2:
+    image: terumoapp/terumo-model-dummy-classifier
+    # ports:
+    #   - "5000:5000"
+    networks:
+      - appnet
+
+networks:
+  appnet:
