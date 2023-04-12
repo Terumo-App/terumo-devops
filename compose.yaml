@@ -9,7 +9,7 @@ services:
       - api1
       - api2
 
-  api1:
+  service-core:
     image: terumoapp/terumo-image-retrieval-core-service
     ports:
       - "5001:5001"
@@ -18,12 +18,13 @@ services:
     networks:
       - appnet
 
-  api2:
+  service-model-a:
     image: terumoapp/terumo-model-dummy-classifier
-    # ports:
-    #   - "5000:5000"
+    ports:
+      - "5000:5000"
     networks:
       - appnet
 
 networks:
   appnet:
+    driver: bridge
