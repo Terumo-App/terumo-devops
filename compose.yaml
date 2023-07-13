@@ -2,33 +2,20 @@ version: '3.9'
 
 services:
   frontend:
-    image: terumoapp/terumo-web-ui-quey-test
+    image: terumoapp/terumo-web
     ports:
-      - "5010:80"
+      - "3000:80"
     depends_on:
-      - service-core
-      - service-model-a
+      - service-search-monolith
 
-  service-core:
-    image: terumoapp/terumo-image-retrieval-core-service
-    ports:
-      - "5001:5001"
-    depends_on:
-      - service-model-a
-    networks:
-      - appnet
-
-  service-model-a:
-    image: terumoapp/terumo-model-dummy-classifier
+  service-search-monolith:
+    image: terumoapp/terumo-service-search-monolith
     ports:
       - "5000:5000"
-    networks:
-      - appnet
-
-  service-search:
-    image: terumoapp/terumo-service-search-engine
-    ports:
-      - "5003:5003"
+    environment:
+      - API_BASEPATH=http://localhost:5000/image-service/glomerulos/
+    volumes:
+      - C:/Users/Maods/Documents/Development/Mestrado/terumo/apps/terumo-model-binary-glomerulus-hypercellularity/data/raw/:/src/db
     networks:
       - appnet
 
