@@ -34,8 +34,8 @@ Docker Compose is required to manage the multi-container application. Follow the
 Before running the Terumo application, you need to pull the container images for both the frontend and backend components. Execute the following commands in your terminal:
 
 ```shell
-docker pull terumoapp/terumo-web
-docker pull terumoapp/terumo-service-search-monolith
+docker pull terumoapp/terumo-web:RELEASE-v0.0.1
+docker pull terumoapp/terumo-service-search-monolith:RELEASE-v0.0.1
 ```
 
 
