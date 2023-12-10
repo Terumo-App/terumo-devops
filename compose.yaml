@@ -105,7 +105,7 @@ services:
     image: terumoapp/terumo-celery-worker
     command: celery -A tasks worker --loglevel=info --without-heartbeat --pool=solo
     volumes:
-      - \\wsl$\Ubuntu\home\maodsunix\cytomine\data\images:/app/file_storage
+      - ${CYTOMINE_IMAGE_FILE_VOLUME}:/app/file_storage
     environment:
       - CELERY_BROKER_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbit:${RABBITMQ_PORT}
       - CELERY_RESULT_BACKEND=rpc://
