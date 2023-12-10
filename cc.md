@@ -44,15 +44,16 @@ adicionar no hosts files a api do terumo
 10.131.10.83 terumo-ui
 10.131.10.83 terumo-portainer
 adicionar ui e api do terumo no proxy reverso 
-    server {
+        server {
         client_max_body_size 0;
+
         listen       80;
         server_name  terumo-ui;
 
         location / {
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header Host $host;
-            proxy_pass http://127.0.0.1:3000;
+            proxy_pass http://frontend;
         }
     }
     server {
@@ -60,24 +61,19 @@ adicionar ui e api do terumo no proxy reverso
         listen       80;
         server_name  terumo-api;
 
-        location / {
+
+        add_header 'Access-Control-Allow-Origin' 'http://terumo-ui';
+        add_header 'Access-Control-Allow-Credentials' 'true';
+        add_header 'Access-Control-Allow-Headers' 'Authorization,Accept,Origin,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+        add_header 'Access-Control-Allow-Methods' 'GET,POST,OPTIONS,PUT,DELETE,PATCH';
+
+
+       location / {
             add_header Access-Control-Allow-Origin *;
             proxy_set_header Host $host;
-            proxy_pass http://127.0.0.1:8000;
+            proxy_pass http://core-api:8000;
         }
-    }
-    server {
-        client_max_body_size 0;
-        listen       80;
-        server_name  terumo-portainer;
-
-        location / {
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header Host $host;
-            proxy_pass http://127.0.0.1:9002;
-        }
-    }
-
+    }  
 
 docker volume create portainer_data
 
@@ -125,5 +121,20 @@ curl http://frontend
 
 ## Fazer pull de uma unica imagem e atualizar ela no docker compose sem derrubar os outros
 docker pull nome_da_imagem:tag
+docker pull terumoapp/terumo-web
 docker-compose up --no-deps -d nome_do_servico
-docker-compose up --no-deps -d nome_do_servico
+docker-compose up --no-deps -d frontend
+
+
+extra_hosts:
+ - "localhost-core-frigga:172.21.0.10"
+
+172.21.0.10 -> é o ip do nginx proxy reverso cytomine container dentro da rede terumo-network do docker compose
+
+
+docker network connect terumo-devops-main_terumo-network nginx
+
+definir variaveis de ambiente anntes de buildar container do teerumo frontend
+REACT_APP_API_URL=http://terumo-api/v1
+REACT_APP_WEB_URL=http://terumo-ui
+REACT_APP_CYTOMINE_URL=http://localhost-core-frigga/

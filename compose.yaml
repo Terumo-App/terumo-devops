@@ -99,7 +99,10 @@ services:
     networks:
       - terumo-network
     ports:
-    - "8000:8000"
+    - "8005:8000"
+    extra_hosts:
+    - "localhost-core-frigga:172.21.0.10"
+
 
   celery-index-worker:
     image: terumoapp/terumo-celery-worker
@@ -129,6 +132,9 @@ services:
       - "rabbit"
     networks:
       - terumo-network
+    extra_hosts:
+    - "localhost-core-frigga:172.21.0.10"
+
 
   flower:
     container_name: flower
