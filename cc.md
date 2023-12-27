@@ -118,6 +118,10 @@ curl http://exemplo.com
 
 
 curl http://frontend
+curl http://core-api:8000/docs#/
+curl http://terumo-api/docs#/
+
+ 
 
 ## Fazer pull de uma unica imagem e atualizar ela no docker compose sem derrubar os outros
 docker pull nome_da_imagem:tag
