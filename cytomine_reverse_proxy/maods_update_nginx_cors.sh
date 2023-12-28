@@ -9,7 +9,7 @@ docker create --name nginx \
      --link core:core \
      --link iipOff:iipOff \
      --link web_UI:web_UI \
-     -v /home/cytomine/data/images/_buffer:/tmp/uploaded \
+     -v /home/cytomine/images/buffer:/tmp/uploaded \
      -p 80:80 \
      --restart=unless-stopped \
      cytomine/nginx:v1.3.1 > /dev/null

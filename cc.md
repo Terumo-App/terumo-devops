@@ -126,6 +126,7 @@ curl http://terumo-api/docs#/
 ## Fazer pull de uma unica imagem e atualizar ela no docker compose sem derrubar os outros
 docker pull nome_da_imagem:tag
 docker pull terumoapp/terumo-web
+docker pull terumoapp/terumo-core-api
 docker-compose up --no-deps -d nome_do_servico
 docker-compose up --no-deps -d frontend
 
